@@ -13,8 +13,6 @@ meals = open('meals.txt').readlines(chomp: true).map do |meal|
   Meal.new(foods, allergens)
 end
 
-puts meals
-
 all_foods = meals.flat_map(&:foods)
 all_allergens = meals.flat_map(&:allergens).uniq
 candidates = {}
