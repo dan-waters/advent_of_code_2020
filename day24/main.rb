@@ -39,7 +39,7 @@ TilePosition = Struct.new(:x, :y) do
   end
 
   def neighbours
-    [
+    @neighbours ||= [
         TilePosition.new(self.x, self.y).move!('e'),
         TilePosition.new(self.x, self.y).move!('se'),
         TilePosition.new(self.x, self.y).move!('sw'),
@@ -71,13 +71,12 @@ puts tiles.values.select { |x| x }.count
 
   changes = {}
   tiles.keys.each do |tp|
+    black_neighbour_count = tp.neighbours.select { |neighbour| tiles[neighbour] }.count
     if tiles[tp] # black
-      black_neighbour_count = tp.neighbours.select { |neighbour| tiles[neighbour] == true }.count
       if black_neighbour_count == 0 || black_neighbour_count > 2
         changes[tp] = false
       end
     elsif tiles[tp] == false # white
-      black_neighbour_count = tp.neighbours.select { |neighbour| tiles[neighbour] == true }.count
       if black_neighbour_count == 2
         changes[tp] = true
       end
